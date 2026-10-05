@@ -1,8 +1,28 @@
 # Windows 11 Privacy Conservative
 
-A conservative PowerShell privacy utility for Windows 11.
+A conservative Power Shell privacy utility for Windows 11.
 
 The goal is **not** to "debloat Windows at any cost." The goal is to reduce optional telemetry-related and promotional behavior while preserving normal Windows functionality.
+## Quick Start
+1. Download the latest release.
+2. Extract the files.
+3. Open PowerShell as Administrator.
+4. Go to the folder containing the script.
+5. If needed, allow script execution for the current session only:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+ ``` 
+6. Run:
+```powershell
+.\Windows11-Privacy-Conservative.ps1
+ ``` 
+7. Start with:
+   - Preflight self-test
+   - Audit only
+   - Create backup
+
+The conservative profile does not disable Windows Update, Microsoft Defender, DiagTrack, printing, Bluetooth, USB, networking, Plug and Play, driver installation, or compatibility infrastructure.
 
 ## Philosophy
 
