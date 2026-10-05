@@ -1,6 +1,6 @@
 # Testing Checklist
 
-Run these checks on a Windows 11 test machine before publishing a release.
+Run these checks on a Windows 10 / Windows 11 test machine before publishing a release.
 
 ## 1. Parse the script without running it
 
@@ -11,7 +11,7 @@ $tokens = $null
 $errors = $null
 
 [System.Management.Automation.Language.Parser]::ParseFile(
-    (Resolve-Path .\Windows11-Privacy-Conservative.ps1),
+    (Resolve-Path .\Windows-Privacy-Conservative.ps1),
     [ref]$tokens,
     [ref]$errors
 ) | Out-Null
@@ -34,7 +34,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 Then run:
 
 ```powershell
-.\Windows11-Privacy-Conservative.ps1
+.\Windows-Privacy-Conservative.ps1
 ```
 
 Choose:
@@ -82,7 +82,7 @@ Choose:
 Verify a timestamped JSON file appears on the Desktop under:
 
 ```text
-Windows11-Privacy-Conservative-Backup
+Windows-Privacy-Conservative-Backup
 ```
 
 Open the JSON file and confirm it is readable.

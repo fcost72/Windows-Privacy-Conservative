@@ -1,28 +1,8 @@
-# Windows 11 Privacy Conservative
+# Windows Privacy Conservative
 
-A conservative Power Shell privacy utility for Windows 11.
+A conservative PowerShell privacy utility for Windows 10 and Windows 11.
 
 The goal is **not** to "debloat Windows at any cost." The goal is to reduce optional telemetry-related and promotional behavior while preserving normal Windows functionality.
-## Quick Start
-1. Download the latest release.
-2. Extract the files.
-3. Open PowerShell as Administrator.
-4. Go to the folder containing the script.
-5. If needed, allow script execution for the current session only:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
- ``` 
-6. Run:
-```powershell
-.\Windows11-Privacy-Conservative.ps1
- ``` 
-7. Start with:
-   - Preflight self-test
-   - Audit only
-   - Create backup
-
-The conservative profile does not disable Windows Update, Microsoft Defender, DiagTrack, printing, Bluetooth, USB, networking, Plug and Play, driver installation, or compatibility infrastructure.
 
 ## Philosophy
 
@@ -99,7 +79,7 @@ Before applying the conservative profile, the script creates a timestamped JSON 
 Example:
 
 ```text
-Windows11-Privacy-Conservative-Backup\
+Windows-Privacy-Conservative-Backup\
 privacy-backup-20261004-215028.json
 ```
 
@@ -144,7 +124,7 @@ A service appearing as `Stopped` with `StartType = Manual` does **not** mean tha
 
 ## Usage
 
-1. Download and extract the release ZIP, or download `Windows11-Privacy-Conservative.ps1` directly.
+1. Download and extract the release ZIP, or download `Windows-Privacy-Conservative.ps1` directly.
 2. Open PowerShell as Administrator.
 3. Change to the folder containing the script.
 4. If Windows blocks script execution, you can allow scripts only for the current PowerShell process:
@@ -158,7 +138,7 @@ This setting ends when that PowerShell process is closed. A Group Policy can sti
 5. Run:
 
 ```powershell
-.\Windows11-Privacy-Conservative.ps1
+.\Windows-Privacy-Conservative.ps1
 ```
 
 ## Menu
@@ -179,7 +159,7 @@ This setting ends when that PowerShell process is closed. A Group Policy can sti
 When **Exit** is selected, the script checks whether the current working directory still exists. If the directory was removed or became unavailable, the script returns PowerShell to the user's home folder before closing. It then displays:
 
 ```text
-Exiting Windows 11 Privacy Conservative.
+Exiting Windows Privacy Conservative.
 No further changes were made.
 ```
 
@@ -202,9 +182,11 @@ Do not apply privacy tweaks blindly to a production system.
 
 ## Tested
 
-The initial release workflow was tested successfully on a Windows 11 system on **October 4, 2026**.
+The complete workflow has been tested successfully on both **Windows 11** and **Windows 10**.
 
-The following workflow was verified:
+### Windows 11
+
+Verified on **October 4, 2026**:
 
 - PowerShell syntax validation
 - script startup and menu loading
@@ -213,49 +195,34 @@ The following workflow was verified:
 - timestamped backup creation
 - conservative privacy profile application
 - post-application audit
-- backup selection
-- backup restoration
+- backup selection and restoration
 - final audit after restoration
 
-During testing, the following components remained enabled or in their normal on-demand states:
+### Windows 10
 
-- Windows Update
-- BITS
-- Microsoft Defender
-- `DiagTrack`
-- Print Spooler
-- Bluetooth Support Service
-- Device Install Service
-- Plug and Play
-- USB/device infrastructure
-- compatibility-related components
+Verified on **October 5, 2026** using the same workflow:
 
-The conservative profile was applied successfully and the system was then restored from the selected backup.
+- preflight self-test
+- read-only privacy audit
+- timestamped backup creation
+- conservative privacy profile application
+- post-application audit
+- backup selection and restoration
+- final audit after restoration
 
-### Tested configuration notes
+On the tested Windows 10 system, the conservative profile successfully changed the selected Content Delivery Manager values from `1` to `0`, changed implicit text/ink collection restrictions from `0` to `1`, and changed the CEIP tasks `Consolidator` and `UsbCeip` from `Ready` to `Disabled`.
 
-At the time of testing:
+After restoring the pre-apply backup, those tested values and task states returned to their original Windows 10 state.
 
-- `AllowTelemetry = 1`
-- `MaxTelemetryAllowed = 1`
-- `DiagTrack` remained `Running / Automatic`
-- `Consolidator` was `Disabled`
-- `UsbCeip` was `Disabled`
-- Microsoft Defender remained `Running / Automatic`
-- Print Spooler remained `Running / Automatic`
-- Windows Update remained available with `Manual` start behavior
-- BITS remained available with `Manual` start behavior
-- Plug and Play remained enabled
-- camera and microphone settings were handled separately from the main profile
+During both Windows 10 and Windows 11 testing, Windows Update, BITS, Microsoft Defender, `DiagTrack`, Print Spooler, Bluetooth, Device Install Service and Plug and Play remained enabled or in their normal on-demand states.
 
-`DiagTrack` showed no active TCP connections at the instant it was checked during the test. This is only a point-in-time observation and should not be interpreted as proof that the service never communicates.
-
+Successful testing on these systems does **not** guarantee identical behavior on every Windows edition, OEM image, managed PC or future build. Run the preflight check and audit, create a backup, and verify your own hardware and applications after applying changes.
 
 ## Implementation notes
 
 Several settings used by this project are ordinary Windows registry values rather than a public, versioned programming API.
 
-In particular, some `ContentDeliveryManager` values are internal Windows implementation details. They were verified on the Windows 11 system used for this release, but Microsoft can change or remove them in future builds.
+In particular, some `ContentDeliveryManager` values are internal Windows implementation details. They were verified on the Windows 10 and Windows 11 systems used for this release, but Microsoft can change or remove them in future builds.
 
 For that reason, the script:
 
@@ -269,9 +236,9 @@ The diagnostic-data values are shown for visibility only. The conservative profi
 
 ## Compatibility
 
-Designed for Windows 11.
+Designed for Windows 10 and Windows 11.
 
-Windows internals change over time, so registry values, scheduled tasks and default service behavior may differ between:
+Windows internals change over time, so registry values, scheduled tasks and default service behavior may differ between Windows 10 and Windows 11, and between:
 
 - Windows editions
 - Windows builds
@@ -283,7 +250,7 @@ Missing settings or tasks are not automatically treated as failures.
 
 ## Important limitations
 
-This project has been tested successfully on one Windows 11 system, but that does **not** guarantee identical behavior on every computer.
+This project has been tested successfully on Windows 10 and Windows 11 systems, but that does **not** guarantee identical behavior on every computer.
 
 Before applying changes:
 
@@ -348,4 +315,8 @@ MIT License. See `LICENSE`.
 
 Technical and documentation assistance: ChatGPT (OpenAI).
 
-The testing, configuration decisions and verification methodology were performed by Soto. ChatGPT was used as support for analysis, organization and documentation.
+The testing, configuration decisions and verification methodology were performed by Soto. ChatGPT was used as support for analysis, organization and documentation.## Version
+
+Current release: **v1.1.0** — tested on Windows 10 and Windows 11.
+
+
